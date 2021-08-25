@@ -8,7 +8,7 @@
 
 #define BUFF_SIZE 1024
 
-int main(void)
+int main(int argc, char **argv)
 {
    int server_socket;
    int client_socket;
@@ -38,14 +38,14 @@ int main(void)
       exit(1);
    }
 
+   if (-1 == listen(server_socket, 5))
+   {
+      printf("listen 모드 설정 실패\n");
+      exit(1);
+   }
+
    while (1)
    {
-      if (-1 == listen(server_socket, 5))
-      {
-         printf("listen 모드 설정 실패\n");
-         exit(1);
-      }
-
       client_addr_size = sizeof(client_addr);
       /***client 접속 요청이 올때 까지 여기에서 block 상태로 대기***/
       client_socket = accept(server_socket, (struct sockaddr *)&client_addr, &client_addr_size);
@@ -63,4 +63,6 @@ int main(void)
       write(client_socket, buff_snd, strlen(buff_snd) + 1); // +1 : NULL까지 포함해서 전송
       close(client_socket);
    }
+
+   return 0;
 }
