@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
   char buff_snd[BUFF_SIZE + 5];
 
   server_socket = socket(PF_INET, SOCK_STREAM, 0);
-  if (-1 == server_socket) {
+  if (server_socket == -1) {
     printf("socket 생성 실패\n");
     exit(1);
   }
@@ -30,12 +30,12 @@ int main(int argc, char **argv) {
   server_addr.sin_port = htons(4000);
   server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
-  if (-1 == bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr))) {
+  if (bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1) {
     printf("bind 실패\n");
     exit(1);
   }
 
-  if (-1 == listen(server_socket, 5)) {
+  if (listen(server_socket, 5) == -1) {
     printf("listen 모드 설정 실패\n");
     exit(1);
   }
@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
     /***client 접속 요청이 올때 까지 여기에서 block 상태로 대기***/
     client_socket = accept(server_socket, (struct sockaddr *)&client_addr, &client_addr_size);
 
-    if (-1 == client_socket) {
+    if (client_socket == -1) {
       printf("client 연결 실패\n");
       exit(1);
     }

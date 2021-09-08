@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
   char buff[BUFF_SIZE + 5];
 
   client_socket = socket(PF_INET, SOCK_STREAM, 0);
-  if (-1 == client_socket) {
+  if (client_socket == -1) {
     printf("socket 생성 실패\n");
     exit(1);
   }
@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
   server_addr.sin_port = htons(4000);
   server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-  if (-1 == connect(client_socket, (struct sockaddr *)&server_addr, sizeof(server_addr))) {
+  if (connect(client_socket, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1) {
     printf("server 접속 실패\n");
     exit(1);
   }
